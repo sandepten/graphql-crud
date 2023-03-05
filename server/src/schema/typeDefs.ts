@@ -24,10 +24,11 @@ const typeDefs = `#graphql
 
     type Mutation {
         createUser(input: CreateUserInput!): User!
+        updateEmail(id: ID!, email: String!): User
+        deleteUser(id: ID!): User
     }
 
     input CreateUserInput {
-        id: ID!
         name: String!
         email: String!
         nationality: String = "Indian"
@@ -40,4 +41,4 @@ const typeDefs = `#graphql
     }
 `
 
-module.exports = { typeDefs }
+export default typeDefs

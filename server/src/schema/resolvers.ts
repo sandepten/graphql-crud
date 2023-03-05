@@ -1,14 +1,6 @@
 import * as fs from 'fs'
-import { fakeData } from '../utilities/fakeData.js'
+import fakeData from '../utilities/fakeData'
 
-interface fakeData {
-  fakeData: Array<{
-    id: number
-    name: string
-    email: string
-    nationality: string
-  }>
-}
 const resolvers = {
   Query: {
     users: () => {
@@ -34,7 +26,6 @@ const resolvers = {
       parent,
       args: {
         input: {
-          id: string
           name: string
           email: string
           nationality: string
@@ -42,21 +33,58 @@ const resolvers = {
       },
     ) => {
       const newUser = {
-        id: +args.input.id,
+        id: fakeData.length + 1,
         name: args.input.name,
         email: args.input.email,
         nationality: args.input.nationality,
       }
       fakeData.push(newUser)
-      const data = `const fakeData = ${JSON.stringify(fakeData)} \n module.exports = { fakeData }`
-      fs.writeFile('./src/utilities/fakeData.js', data, err => {
+      const data = `const fakeData = ${JSON.stringify(fakeData)} \n export default fakeData`
+      fs.writeFile('./src/utilities/fakeData.ts', data, err => {
         if (err) {
           console.log(err)
         }
       })
       return newUser
     },
+    updateEmail: (
+      parent,
+      args: {
+        id: string
+        email: string
+      },
+    ) => {
+      fakeData.forEach(user => {
+        if (user.id === +args.id) {
+          user.email = args.email
+        }
+      })
+      const user = fakeData.filter(user => user.id === +args.id)[0]
+      const data = `const fakeData = ${JSON.stringify(fakeData)} \n export default fakeData`
+      fs.writeFile('./src/utilities/fakeData.ts', data, err => {
+        if (err) {
+          console.log(err)
+        }
+      })
+      return user
+    },
+    deleteUser: (
+      parent,
+      args: {
+        id: string
+      },
+    ) => {
+      const user = fakeData.filter(user => user.id === +args.id)[0]
+      fakeData.splice(fakeData.indexOf(user), 1)
+      const data = `const fakeData = ${JSON.stringify(fakeData)} \n export default fakeData`
+      fs.writeFile('./src/utilities/fakeData.ts', data, err => {
+        if (err) {
+          console.log(err)
+        }
+      })
+      return user
+    },
   },
 }
 
-module.exports = { resolvers }
+export default resolvers
