@@ -8,9 +8,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
+import CreateUser from "./components/CreateUser";
 import ReadData from "./components/ReadData";
+import UpdateEmail from "./components/UpdateEmail";
 import UserDetails from "./components/UserDetails";
-import WriteData from "./components/WriteData";
 import "./index.css";
 
 const client = new ApolloClient({
@@ -28,12 +29,16 @@ const router = createBrowserRouter([
     element: <ReadData />,
   },
   {
-    path: "/write",
-    element: <WriteData />,
-  },
-  {
     path: "/user/:id",
     element: <UserDetails />,
+  },
+  {
+    path: "/createUser",
+    element: <CreateUser />,
+  },
+  {
+    path: "/updateEmail",
+    element: <UpdateEmail />,
   },
 ]);
 

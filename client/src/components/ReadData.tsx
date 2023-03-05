@@ -8,20 +8,25 @@ export default function ReadData() {
   const navigate = useNavigate();
   return (
     <div className="text-white p-12">
-      <h1 className="text-2xl">List of all users</h1>
-      {data?.users.map((user: User) => (
-        <div
-          className="flex gap-6 mt-4 cursor-pointer"
-          key={user.id}
-          onClick={() => {
-            navigate(`/user/${user.id}`);
-          }}
-        >
-          <p>{user.name}</p>
-          <p>-</p>
-          <p>{user.email}</p>
-        </div>
-      ))}
+      <p className="text-lg cursor-pointer" onClick={() => navigate("/")}>
+        &lt;- Back to home
+      </p>
+      <div className="p-6">
+        <h1 className="text-2xl">List of all users</h1>
+        {data?.users.map((user: User) => (
+          <div
+            className="flex gap-6 mt-4 cursor-pointer"
+            key={user.id}
+            onClick={() => {
+              navigate(`/user/${user.id}`);
+            }}
+          >
+            <p>{user.name}</p>
+            <p>-</p>
+            <p>{user.email}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
